@@ -9,9 +9,27 @@ const defaultCartState = {
 
 const cartReducer = (state, action) => {
   if (action.type === "ADD") {
-    const updatedItems = state.items.concat(action.item); // concat() : 배열에 새 항목을 추가해준다. => push와 다르게 기존 배열을 편집하는 것이 아닌 새 배열을 반환한다.
+    const existingCartItemIndex = state.items.findIndex(
+      item => item.id === action.item.id
+    );
+
+    const existingCartItem = state.items[existingCartItemIndex];
+    let updatedItems;
+
+    if (existingCartItem) {
+      const updatedItem = {
+        ...existingCartItem,
+        amount: existingCartItem.amount + action.item.amount,
+      };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    } else {
+      updatedItems = state.items.concat(action.item); // concat() : 배열에 새 항목을 추가해준다. => push와 다르게 기존 배열을 편집하는 것이 아닌 새 배열을 반환한다.
+    }
+
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
+
     return {
       items: updatedItems,
       totalAmount: updatedTotalAmount,
