@@ -9,7 +9,7 @@ const Header = props => {
     <Fragment>
       <header className={classes.header}>
         <h1>ReactMeals</h1>
-        <HeaderCartButton />
+        <HeaderCartButton onClick={props.onShowCart} />
       </header>
       <div className={classes["main-image"]}>
         {/* class이름에 -가 있으면 점표기법을 사용할 수 없다. */}
